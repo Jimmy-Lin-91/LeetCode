@@ -1,9 +1,10 @@
-function fib(n) {
-  if (n <= 2) {
+function fib(n) { //4
+  if (n <= 2) { //false
     return 1;
   }
-  console.log(n);
-  return fib(n - 1) + fib(n - 2);
+  return fib(n - 1) + fib(n - 2); //fib(3) + fib(2);
+                                      //(fib(2) + fib(1)) + fib(2)
+                                        // 1 + 1 + 1
 }
 
 console.log(fib(4)); //3
