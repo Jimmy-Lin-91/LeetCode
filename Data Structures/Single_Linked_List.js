@@ -86,17 +86,17 @@ class SinglyLinkedList{
     }
     return this;
   }
-  get(val){
+  get(i){
     //finds value at index provided
     //create a counter
     //while counter is less than value, increment and traverse.
     //return currentNode when index === val;
-    if (val < 0 || val >= this.length) {
+    if (i < 0 || i >= this.length) {
       return null;
     }
     var currentNode = this.head;
     var index = 0;
-    while (index !== val) {
+    while (index !== i) {
       currentNode = currentNode.next;
       index++;
     }
@@ -113,6 +113,65 @@ class SinglyLinkedList{
     }
     return false;
   }
+  insert(i, val) {
+    //inserts a new node at index.
+    //if no node exists or i is greater than length of list, return undefined
+    if (i < 0 || i >= this.length) {
+      return false;
+    }
+    if (i === 0) {
+      this.unShift(val);
+    }
+    if (i === this.length) {
+      this.push(val);
+    }
+    //create newNode
+    var newNode = new Node(val);
+    //create variable for previous node index.
+    var previousIndex = i - 1;
+    //create variable for current node index.
+    var currentNode = this.get(i);
+    var previousNode = this.get(previousIndex);
+    previousNode.next = newNode;
+    newNode.next = currentNode;
+    this.length++;
+    return true;
+  }
+  remove(i) {
+    if (i < 0 || i >= this.length) return false;
+    if (i === this.length - 1) return this.pop();
+    if (i === 0) return this.shift();
+    var nodeToRemove = this.get(i);
+    var previousNode = this.get(i-1);
+    previousNode.next = nodeToRemove.next;
+    this.length--;
+    return nodeToRemove;
+  }
+  reverse() {
+    //5 4 3 2 1 || 1 2 3 4 5
+    if (this.length === 0) return undefined;
+    //IMPORTANT: doing too many reassignments confuses. Do 1 index at a time. If 1 is the current node, how do we iterate so that we reassign next values?
+    //reversing list in place will save time and space.
+    //simply re-assign head and tail nodes by using third variable for node
+    var node = this.head;
+    this.head = this.tail;
+    this.tail = node;
+    //using a for loop, reassign each node's next value
+    var next;
+    var prev = null;
+    //1 2 3 4 5
+    for (var i = 0; i < this.length; i++) {
+      //first assign next to the next index of original list, we are saving this value for later;
+      next = node.next;
+      //re-assign CURRENT node's next value to prev, completing the tail portion of the list. This means 1 now has a next of null.
+      node.next = prev;
+      //re-assign previous to be current node, this will move the iteration forward
+      prev = node;
+      //re-assign current node to be next node for next iteration
+      node = next;
+    }
+    return this;
+  }
 }
 
 var list = new SinglyLinkedList();
@@ -120,6 +179,6 @@ list.push(1);
 list.push(2);
 list.push(3);
 list.push(4);
-list.set(0, "schmooblydong");
-console.log(list);
-
+list.push(5);
+list.reverse();
+console.log(list)
