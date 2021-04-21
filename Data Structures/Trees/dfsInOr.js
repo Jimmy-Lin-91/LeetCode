@@ -58,8 +58,25 @@ class BST{
     }
     return checkNode(this.root, val);
   }
+  DFS() {
+    //INORDER depth first search: push parent first, then all left, then all right
+    //create an array variable that tracks all node vals visited
+    let result = [],
+    //create a variable to store current node
+        curNode = this.root;
+    let helperFunc = (node) => {
+      if (node.left) {
+        helperFunc(node.left);
+      }
+      result.push(node.val);
+      if (node.right) {
+        helperFunc(node.right);
+      }
+    }
+    helperFunc(curNode);
+    return result;
+  }
 }
-
 var tree = new BST();
 tree.insert(10);
 tree.insert(5);
@@ -68,4 +85,5 @@ tree.insert(11);
 tree.insert(2);
 tree.insert(16);
 tree.insert(7);
-console.log(tree.find(13));
+console.log(tree);
+console.log(tree.DFS());
